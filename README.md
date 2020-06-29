@@ -32,8 +32,8 @@ A B2C platform where products and items can be displayed, sold and monitored, wh
 #### Clone The Repo:
 
 ```
-$ git clone
-$ cd
+$ git clone https://github.com/rutaks/tajyire-frontend-admin
+$ cd tajyire-frontend-admin
 ```
 
 #### Install dependencies:
