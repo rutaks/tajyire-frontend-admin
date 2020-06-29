@@ -8,11 +8,7 @@ import 'dotenv/config';
 const { REACT_APP_BASE_URL_BACKEND } = process.env;
 
 const backend = {
-  baseUrl: REACT_APP_BASE_URL_BACKEND || 'http://devapi.ijisho.rw'
+  baseUrl: REACT_APP_BASE_URL_BACKEND || 'http://localhost:8080'
 };
 
-const getManagerBranch = () => {
-  return localStorage.getItem('IJISHO_MANAGER_BRANCH_ID');
-};
-
-export { backend, getManagerBranch };
+export { backend };

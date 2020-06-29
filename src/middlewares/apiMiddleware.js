@@ -4,7 +4,6 @@ import { actionTypes } from '../redux/action-types';
 /**
  * An axios middleware used to make API calls based on params passed from the `apiAction`.
  * Will dispatch states based on state {start,end,success,fail} passed respectively
- * @author Rutakayile Samuel
  * @since 06.05.2020
  */
 const apiMiddleware = ({ dispatch, getState }) => (next) => async ({ type = '', payload = {} }) => {

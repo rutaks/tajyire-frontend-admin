@@ -13,8 +13,8 @@ const { baseUrl } = urlHelper.backend;
 export default (data = {}) => {
   const { token } = data;
   const baseURL = baseUrl;
-  const jwt = token || localStorage.IJISHO_MANAGER_TOKEN || undefined;
-  let headers = jwt ? { Authorization: `Bearer ${jwt}` } : '';
+  const jwt = token || localStorage.TAJYIRE_TOKEN || undefined;
+  let headers = jwt && jwt !== '' ? { Authorization: `Bearer ${jwt}` } : '';
   // headers = data.headers && { ...headers, 'Content-Type': contentType };
   if (data.headers) {
     headers = { ...headers, 'content-type': data.headers['Content-Type'] };
