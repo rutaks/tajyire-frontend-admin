@@ -16,7 +16,11 @@ export default (state, { type, payload }) => {
       };
     case actionTypes.user.LOGIN_USER_SUCCESS:
       localStorage.TAJYIRE_USER = JSON.stringify(payload.payload.user);
-      localStorage.TAJYIRE_TOKEN = payload.payload.token;
+      localStorage.TAJYIRE_TOKEN = payload.payload.jwt;
+
+      console.log(payload.payload.user);
+      console.log(localStorage.TAJYIRE_USER);
+
       return {
         ...state,
         isAuth: true,

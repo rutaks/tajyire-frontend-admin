@@ -20,9 +20,15 @@ const Login = ({ loginState, loginAction }) => {
 
   useEffect(() => {
     if (loginState.success) {
-      console.log('GO TO DASHBOARD');
+      history.push('/');
     }
   }, [loginState.success]);
+
+  useEffect(() => {
+    if (localStorage.TAJYIRE_TOKEN && localStorage.TAJYIRE_TOKEN !== '') {
+      history.push('/');
+    }
+  }, [localStorage.TAJYIRE_TOKEN]);
 
   const onSubmit = (values) => {
     loginAction(values);
