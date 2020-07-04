@@ -9,6 +9,7 @@ import {
   FileExcelOutlined
 } from '@ant-design/icons';
 import FilterSubCategoriesTable from './FilterSubCategoriesTable';
+import { Link } from 'react-router-dom';
 const data = [
   {
     key: '1',
@@ -59,15 +60,15 @@ export default function SubCategoriesTable({ style }) {
           key="action"
           render={(text, record) => (
             <Space size="middle">
-              <a>
+              <Link>
                 <EditOutlined />
-              </a>
-              <a>
+              </Link>
+              <Link>
                 <UnorderedListOutlined />
-              </a>
-              <a>
+              </Link>
+              <Link>
                 <DeleteOutlined />
-              </a>
+              </Link>
             </Space>
           )}
         />

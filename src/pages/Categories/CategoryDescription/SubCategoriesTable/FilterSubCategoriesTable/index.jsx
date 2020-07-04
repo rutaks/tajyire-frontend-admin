@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Row, Col, Input, Button } from 'antd';
+import PropTypes from 'prop-types';
 
 export default function FilterSubCategoriesTable({ style }) {
-  const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-
-  const getFields = () => {
-    const count = expand ? 10 : 6;
-    const children = [];
-    for (let i = 0; i < count; i++) {
-      children.push();
-    }
-    return children;
-  };
   return (
     <div style={style}>
       <Form name="advanced_search" className="ant-advanced-search-form">
@@ -51,3 +42,7 @@ export default function FilterSubCategoriesTable({ style }) {
     </div>
   );
 }
+
+FilterSubCategoriesTable.propTypes = {
+  style: PropTypes.object
+};

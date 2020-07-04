@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Form, Breadcrumb, Divider, Row, Col, Select } from 'antd';
+import { Button, Input, Form, Breadcrumb, Divider, Select } from 'antd';
 import { InsertRowAboveOutlined, HomeOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { Upload, message } from 'antd';
 import { Link } from 'react-router-dom';
@@ -142,9 +142,3 @@ export default function CreateCategory() {
     </div>
   );
 }
-
-const styles = {
-  table: {
-    'padding-top': '50px'
-  }
-};

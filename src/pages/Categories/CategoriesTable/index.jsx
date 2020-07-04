@@ -2,47 +2,50 @@ import React, { Fragment } from 'react';
 import { Table, Space, Divider } from 'antd';
 import Column from 'antd/lib/table/Column';
 import { EditOutlined, UnorderedListOutlined, DeleteOutlined } from '@ant-design/icons';
-const data = [
-  {
-    key: '1',
-    id: '1',
-    name: 'John Brown'
-  },
-  {
-    key: '2',
-    id: '2',
-    name: 'Jim Green'
-  },
-  {
-    key: '3',
-    id: '3',
-    name: 'Joe Black'
-  }
-];
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export default function CategoriesTable({ style }) {
+export default function CategoriesTable({
+  totalElements = 0,
+  currentPage = 0,
+  setCurrentPage = () => {},
+  isLoading = true,
+  categoryArr = [],
+  style
+}) {
+  const onChange = (page) => {
+    setCurrentPage(page - 1);
+  };
   return (
     <Fragment style={style}>
       <Divider orientation="left" style={{ fontSize: '15px' }}>
         Category List
       </Divider>
-      <Table dataSource={data}>
-        <Column title="ID" width="20%" dataIndex="id" key="id" />
+      <Table
+        pagination={{
+          onChange: onChange,
+          current: currentPage,
+          total: totalElements
+        }}
+        loading={isLoading}
+        dataSource={categoryArr}
+      >
+        <Column title="ID" width="20%" dataIndex="index" key="index" />
         <Column title="Name" width="60%" dataIndex="name" key="name" />
         <Column
           title="Action"
           key="action"
-          render={(text, record) => (
+          render={() => (
             <Space size="middle">
-              <a>
+              <Link>
                 <EditOutlined />
-              </a>
-              <a>
+              </Link>
+              <Link>
                 <UnorderedListOutlined />
-              </a>
-              <a>
+              </Link>
+              <Link>
                 <DeleteOutlined />
-              </a>
+              </Link>
             </Space>
           )}
         />
@@ -50,3 +53,13 @@ export default function CategoriesTable({ style }) {
     </Fragment>
   );
 }
+
+CategoriesTable.propTypes = {
+  getCategoriesState: PropTypes.object,
+  totalElements: PropTypes.number,
+  currentPage: PropTypes.number,
+  setCurrentPage: PropTypes.func,
+  isLoading: PropTypes.bool,
+  categoryArr: PropTypes.array,
+  style: PropTypes.object
+};

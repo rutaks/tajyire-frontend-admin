@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Breadcrumb, Col, Row, Button } from 'antd';
 import {
@@ -8,11 +8,34 @@ import {
   DeleteOutlined,
   FileExcelOutlined
 } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 import CategoriesTable from './CategoriesTable';
 import FilterCategoriesTable from './CategoriesTable/FilterCategoriesTable';
+import { connect } from 'react-redux';
+import getCategoriesAction from '../../redux/actions/category/getCategories';
 
-export default function Categories() {
+const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }) => {
   const history = useHistory();
+  const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+
+  useEffect(() => {
+    getCategoriesAction({ page: currentPage });
+  }, [getCategoriesAction, currentPage]);
+
+  useEffect(() => {
+    if (categoryPayload.content) {
+      const response = categoryPayload.content.map((category, index) => {
+        return { ...category, index: index + 1 + 10 * currentPage };
+      });
+      setCategories(response);
+      setTotalElements(categoryPayload.totalElements);
+    }
+  }, [categoryPayload, currentPage]);
+
+  console.log(categories);
+
   return (
     <Fragment>
       <Breadcrumb>
@@ -47,10 +70,17 @@ export default function Categories() {
         </Col>
       </Row>
       <FilterCategoriesTable />
-      <CategoriesTable style={styles.table} />
+      <CategoriesTable
+        currentPage={currentPage + 1}
+        totalElements={totalElements}
+        isLoading={getCategoriesState.loading}
+        categoryArr={categories}
+        setCurrentPage={setCurrentPage}
+        style={styles.table}
+      />
     </Fragment>
   );
-}
+};
 
 const styles = {
   table: {
@@ -60,3 +90,16 @@ const styles = {
     'margin-left': '5px'
   }
 };
+
+Categories.propTypes = {
+  getCategoriesState: PropTypes.object,
+  categoryPayload: PropTypes.object,
+  getCategoriesAction: PropTypes.func
+};
+
+const mapStateToProps = (state) => ({
+  getCategoriesState: state.category.getCategories,
+  categoryPayload: state.category.categoryPayload
+});
+
+export default connect(mapStateToProps, { getCategoriesAction })(Categories);

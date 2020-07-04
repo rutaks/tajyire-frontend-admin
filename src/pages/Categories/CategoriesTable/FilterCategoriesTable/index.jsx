@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Row, Col, Input, Button, Divider } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 
 export default function FilterCategoriesTable({ style }) {
-  const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-
-  const getFields = () => {
-    const count = expand ? 10 : 6;
-    const children = [];
-    for (let i = 0; i < count; i++) {
-      children.push();
-    }
-    return children;
-  };
   return (
     <div style={style}>
       <Divider orientation="left" style={{ fontSize: '15px' }}>
@@ -55,3 +45,7 @@ export default function FilterCategoriesTable({ style }) {
     </div>
   );
 }
+
+FilterCategoriesTable.propTypes = {
+  style: PropTypes.object
+};

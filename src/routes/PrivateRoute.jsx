@@ -28,7 +28,7 @@ export default function PrivateRoute() {
     if (localStorage.TAJYIRE_USER && localStorage.TAJYIRE_USER !== '') {
       setUser(JSON.parse(localStorage.TAJYIRE_USER));
     }
-  }, [localStorage.TAJYIRE_USER]);
+  }, []);
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -77,9 +77,9 @@ export default function PrivateRoute() {
             onClick: toggle
           })}
           <Dropdown overlay={menu}>
-            <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <Link className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
               {`${user.firstName} ${user.lastName}`} <DownOutlined />
-            </a>
+            </Link>
           </Dropdown>
         </Header>
         <Content
