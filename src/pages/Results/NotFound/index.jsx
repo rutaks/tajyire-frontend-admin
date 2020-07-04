@@ -1,7 +1,12 @@
 import React from 'react';
 import { Result, Button } from 'antd';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
+/**
+ * Functional component representing the 404 view
+ * where admin will be directed when route looked for does not exist
+ * @since version-1
+ */
 export default function NotFound() {
   const history = useHistory();
   return (

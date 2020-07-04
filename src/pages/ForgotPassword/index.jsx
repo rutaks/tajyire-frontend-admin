@@ -5,6 +5,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import forgotPasswordAction from '../../redux/actions/user/forgotPassword';
 
+/**
+ * Functional component representing the forgot password view
+ * where admin will be able to submit a new password creation request
+ * @since version-1
+ */
 const ForgotPassword = ({ forgotPasswordState, forgotPasswordAction }) => {
   const history = useHistory();
   const [errors, setErrors] = useState({
@@ -77,7 +82,9 @@ const ForgotPassword = ({ forgotPasswordState, forgotPasswordAction }) => {
 };
 
 ForgotPassword.propTypes = {
+  /** Redux forgot password state object  */
   forgotPasswordState: PropTypes.object,
+  /** forgot password function  */
   forgotPasswordAction: PropTypes.func
 };
 
