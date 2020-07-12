@@ -14,6 +14,11 @@ import FilterCategoriesTable from './CategoriesTable/FilterCategoriesTable';
 import { connect } from 'react-redux';
 import getCategoriesAction from '../../redux/actions/category/getCategories';
 
+/**
+ * Functional component representing the
+ * List Categories View
+ * @since version 1.0
+ */
 const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }) => {
   const history = useHistory();
   const [categories, setCategories] = useState([]);

@@ -7,5 +7,11 @@ export const categoryInitialState = {
     loading: false,
     message: null,
     error: null
+  },
+  createCategory: {
+    success: false,
+    loading: false,
+    message: null,
+    error: null
   }
 };

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 /**
  * Functional component representing the last step to reset admin's password
  * where admin will be able to submit his new password
- * @since version-1
+ * @since version 1
  */
 const ForgotPasswordFinalStep = () => {
   const history = useHistory();

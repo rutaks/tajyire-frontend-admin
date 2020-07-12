@@ -1,144 +1,93 @@
-import React, { useState } from 'react';
-import { Button, Input, Form, Breadcrumb, Divider, Select } from 'antd';
-import { InsertRowAboveOutlined, HomeOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Upload, message } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Formik } from 'formik';
+import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import { getBase64 } from '../../../helpers/imageHelper';
+import CreateCategoryBreadcrumb from './CreateCategoryBreadcrumb';
+import CreateCategoryForm from './CreateCategoryForm';
+import createCategoryAction from '../../../redux/actions/category/createCategory';
+import { message } from 'antd';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
-
-export default function CreateCategory() {
-  const [componentSize, setComponentSize] = useState('middle');
-  const [loading, setLoading] = useState(false);
+/**
+ * Functional component representing the
+ * Category Form used to create or edit a category
+ * @since version 1.0
+ */
+const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, success, error } }) => {
+  const history = useHistory();
   const [imageUrl, setImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [imageError, setImageError] = useState(null);
 
-  const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
+  const handleImageChange = (info) => {
+    const files = info.file.originFileObj;
+    try {
       getBase64(info.file.originFileObj, (imageUrl) => {
         setImageUrl(false);
         setImageUrl(imageUrl);
       });
+      setImageFile(files);
+    } catch (error) {
+      console.log('IMAGE UPLOAD ERROR: ', error);
     }
   };
 
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
+  useEffect(() => {
+    success && history.push('/');
+  }, [success, history]);
 
-  function onChange(value) {
-    console.log(`selected ${value}`);
-  }
+  useEffect(() => {
+    error && message.error(error || 'Could not create category');
+  }, [error]);
 
-  function onBlur() {
-    console.log('blur');
-  }
-
-  function onFocus() {
-    console.log('focus');
-  }
-
-  function onSearch(val) {
-    console.log('search:', val);
-  }
-
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  );
   return (
     <div>
-      <Breadcrumb>
-        <Breadcrumb.Item href="">
-          <Link to="/">
-            <HomeOutlined />
-          </Link>
-        </Breadcrumb.Item>
-
-        <Breadcrumb.Item href="">
-          <Link to="/">
-            <InsertRowAboveOutlined />
-            <span>Categories</span>
-          </Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item href="">
-          <PlusOutlined />
-          <span>New</span>
-        </Breadcrumb.Item>
-      </Breadcrumb>
-      <Divider orientation="left" style={{ paddingTop: '25px', fontSize: '15px' }}>
-        Create new category
-      </Divider>
-      <Form
-        wrapperCol={{
-          span: 6
-        }}
-        layout="horizontal"
+      <CreateCategoryBreadcrumb />
+      <Formik
         initialValues={{
-          size: componentSize
+          name: ''
         }}
-        onValuesChange={onFormLayoutChange}
-        size={componentSize}
+        validationSchema={Yup.object().shape({
+          name: Yup.string().required('Category name is required')
+        })}
+        onSubmit={({ name }) => {
+          setImageError(null);
+          if (!imageFile) {
+            setImageError('Please select an image');
+            return;
+          }
+          let formData = new FormData();
+          formData.append('name', name);
+          formData.append('coverImage', imageFile);
+          createCategoryAction(formData);
+        }}
       >
-        <p>Image Cover</p>
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          beforeUpload={beforeUpload}
-          onChange={handleChange}
-        >
-          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-        </Upload>
-
-        <Form.Item label="Parent Category">
-          <Select
-            showSearch
-            style={{ width: 200 }}
-            placeholder="Select a category"
-            optionFilterProp="children"
-            onChange={onChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onSearch={onSearch}
-            filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          >
-            <Select.Option value="jack">Jack</Select.Option>
-            <Select.Option value="lucy">Lucy</Select.Option>
-            <Select.Option value="tom">Tom</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="Category Name">
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button block={true} style={{ width: '100%' }} type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+        {({ errors, touched }) => (
+          <CreateCategoryForm
+            errors={errors}
+            loading={loading}
+            touched={touched}
+            handleImageChange={handleImageChange}
+            imageUrl={imageUrl}
+            imageError={imageError}
+          />
+        )}
+      </Formik>
     </div>
   );
-}
+};
+
+CreateCategory.propTypes = {
+  /** Redux create category state */
+  createCategoryState: PropTypes.object,
+  /** API Action linked with redux to create a category */
+  createCategoryAction: PropTypes.func
+};
+
+const mapStateToProps = (state) => ({
+  createCategoryState: state.category.createCategory
+});
+
+export default connect(mapStateToProps, { createCategoryAction })(CreateCategory);
