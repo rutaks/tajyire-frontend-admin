@@ -1,3 +1,4 @@
+import { message } from 'antd';
 /**
  * Static class for input validations
  * @since 29.06.2020
@@ -43,6 +44,18 @@ class Validations {
     } else {
       return false;
     }
+  }
+
+  static isValidImage(file) {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
   }
 }
 export default Validations;

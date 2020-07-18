@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
-import { initialState } from './initialStates';
+import { initialState } from './initialStates/index';
 import reducers from '../reducers/';
 import apiMiddleware from '../../middlewares/apiMiddleware';
 

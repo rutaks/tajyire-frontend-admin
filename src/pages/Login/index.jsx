@@ -1,30 +1,54 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Row, Col } from "antd";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Button, Row, Col } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import loginAction from '../../redux/actions/user/login';
 
-export default function Login() {
+/**
+ * Functional component representing the login view of the project
+ * where admin will be able to access the dashboard
+ * @since version-1
+ */
+const Login = ({ loginState, loginAction }) => {
   const history = useHistory();
   const [errors, setErrors] = useState({
     email: null,
-    passwor: null,
+    password: null
   });
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
+  useEffect(() => {
+    if (loginState.error) {
+      setErrors((errors) => {
+        return { ...errors, email: '', password: 'Invalid Username or Password' };
+      });
+    }
+  }, [loginState.error]);
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  useEffect(() => {
+    if (loginState.success) {
+      history.push('/');
+    }
+  }, [loginState.success, history]);
+
+  useEffect(() => {
+    if (localStorage.TAJYIRE_TOKEN && localStorage.TAJYIRE_TOKEN !== '') {
+      history.push('/');
+    }
+  }, [history]);
+
+  const onSubmit = (values) => {
+    loginAction(values);
   };
 
   return (
-    <Row style={{ marginTop: "120px" }}>
+    <Row style={{ marginTop: '120px' }}>
       <Col span={12} offset={6}>
-        <Row align={"center"}>
+        <Row align={'center'}>
           <Col>
             <img
-              style={{ height: "100px", width: "100px" }}
-              src={window.location.origin + "/images/logo.jpeg"}
+              style={{ height: '100px', width: '100px' }}
+              src={window.location.origin + '/images/logo.jpeg'}
               alt="Tajyire Logo"
             />
             <h1>Login</h1>
@@ -32,19 +56,13 @@ export default function Login() {
         </Row>
         <Row>
           <Col span={24}>
-            <Form
-              name="basic"
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-            >
+            <Form name="basic" onFinish={onSubmit}>
               <Form.Item
-                label="Username"
+                label="Email"
                 name="username"
-                validateStatus={errors.email !== null && "error"}
+                validateStatus={errors.email !== null && 'error'}
                 help={errors.email}
-                rules={[
-                  { required: true, message: "Please input your username!" },
-                ]}
+                rules={[{ required: true, message: 'Please input your username!' }]}
               >
                 <Input />
               </Form.Item>
@@ -52,20 +70,15 @@ export default function Login() {
               <Form.Item
                 label="Password"
                 name="password"
-                rules={[
-                  { required: true, message: "Please input your password!" },
-                ]}
+                validateStatus={errors.password !== null && 'error'}
+                help={errors.password}
+                rules={[{ required: true, message: 'Please input your password!' }]}
               >
                 <Input.Password />
               </Form.Item>
 
               <Form.Item>
-                <Button
-                  loading={true}
-                  type="primary"
-                  block={true}
-                  htmlType="submit"
-                >
+                <Button loading={loginState.loading} type="primary" block={true} htmlType="submit">
                   Submit
                 </Button>
                 <br />
@@ -74,7 +87,7 @@ export default function Login() {
                   type="link"
                   block={true}
                   htmlType="button"
-                  onClick={() => history.push("/forgot-password")}
+                  onClick={() => history.push('/forgot-password')}
                 >
                   Forgot Password?
                 </Button>
@@ -85,4 +98,17 @@ export default function Login() {
       </Col>
     </Row>
   );
-}
+};
+
+Login.propTypes = {
+  /** Redux login state object  */
+  loginState: PropTypes.object,
+  /** login function  */
+  loginAction: PropTypes.func
+};
+
+const mapStateToProps = (state) => ({
+  loginState: state.user.login
+});
+
+export default connect(mapStateToProps, { loginAction })(Login);
