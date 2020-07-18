@@ -12,6 +12,7 @@ export default function CategoriesTable({
   setCurrentPage = () => {},
   isLoading = true,
   categoryArr = [],
+  deleteCategory,
   style
 }) {
   const onChange = (page) => {
@@ -51,19 +52,21 @@ export default function CategoriesTable({
         <Column
           title="Action"
           key="action"
-          render={() => (
-            <Space size="middle">
-              <Link>
-                <EditOutlined />
-              </Link>
-              <Link>
-                <UnorderedListOutlined />
-              </Link>
-              <Link>
-                <DeleteOutlined />
-              </Link>
-            </Space>
-          )}
+          render={(category) => {
+            return (
+              <Space size="middle">
+                <Link to={`categories/${category.uuid}/edit`}>
+                  <EditOutlined />
+                </Link>
+                <Link>
+                  <UnorderedListOutlined />
+                </Link>
+                <Link onClick={() => deleteCategory(category.uuid)}>
+                  <DeleteOutlined />
+                </Link>
+              </Space>
+            );
+          }}
         />
       </Table>
     </div>
@@ -77,5 +80,6 @@ CategoriesTable.propTypes = {
   setCurrentPage: PropTypes.func,
   isLoading: PropTypes.bool,
   categoryArr: PropTypes.array,
+  deleteCategory: PropTypes.func,
   style: PropTypes.object
 };

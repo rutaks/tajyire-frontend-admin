@@ -1,10 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, message } from 'antd';
 import { InsertRowAboveOutlined, HomeOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import CategoriesTable from './CategoriesTable';
 import { connect } from 'react-redux';
 import getCategoriesAction from '../../redux/actions/category/getCategories';
+import deleteCategoryAction from '../../redux/actions/category/deleteCategory';
 import CreateCategory from './CreateCategory';
 
 /**
@@ -12,7 +13,13 @@ import CreateCategory from './CreateCategory';
  * List Categories View
  * @since version 1.0
  */
-const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }) => {
+const Categories = ({
+  getCategoriesState,
+  deleteCategoryState,
+  deleteCategoryAction,
+  getCategoriesAction,
+  categoryPayload
+}) => {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -30,6 +37,28 @@ const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }
       setTotalElements(categoryPayload.totalElements);
     }
   }, [categoryPayload, currentPage]);
+
+  useEffect(() => {
+    if (deleteCategoryState.loading) {
+      message.loading('Removing Item...', 2.5);
+    }
+  }, [deleteCategoryState.loading]);
+
+  useEffect(() => {
+    if (deleteCategoryState.error) {
+      message.error('Could not remove item', 2.5);
+    }
+  }, [deleteCategoryState.error]);
+
+  useEffect(() => {
+    if (deleteCategoryState.success) {
+      message.success('Item removed successfully', 2.5);
+    }
+  }, [deleteCategoryState.success]);
+
+  const deleteCategory = (categoryUuId) => {
+    deleteCategoryAction({ categoryUuId });
+  };
 
   return (
     <Fragment>
@@ -49,9 +78,10 @@ const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }
       <CategoriesTable
         currentPage={currentPage + 1}
         totalElements={totalElements}
-        isLoading={getCategoriesState.loading}
+        isLoading={getCategoriesState.loading || deleteCategoryState.loading}
         categoryArr={categories}
         setCurrentPage={setCurrentPage}
+        deleteCategory={deleteCategory}
         style={styles.table}
       />
     </Fragment>
@@ -69,13 +99,16 @@ const styles = {
 
 Categories.propTypes = {
   getCategoriesState: PropTypes.object,
+  deleteCategoryState: PropTypes.object,
   categoryPayload: PropTypes.object,
-  getCategoriesAction: PropTypes.func
+  getCategoriesAction: PropTypes.func,
+  deleteCategoryAction: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   getCategoriesState: state.category.getCategories,
+  deleteCategoryState: state.category.deleteCategory,
   categoryPayload: state.category.categoryPayload
 });
 
-export default connect(mapStateToProps, { getCategoriesAction })(Categories);
+export default connect(mapStateToProps, { getCategoriesAction, deleteCategoryAction })(Categories);

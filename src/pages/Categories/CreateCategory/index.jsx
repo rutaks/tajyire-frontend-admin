@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { getBase64 } from '../../../helpers/imageHelper';
-import CreateCategoryForm from './CreateCategoryForm';
+import CategoryForm from '../CategoryForm';
 import createCategoryAction from '../../../redux/actions/category/createCategory';
 import { message } from 'antd';
 
@@ -62,7 +62,7 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
       }}
     >
       {({ errors, touched }) => (
-        <CreateCategoryForm
+        <CategoryForm
           errors={errors}
           loading={loading}
           touched={touched}

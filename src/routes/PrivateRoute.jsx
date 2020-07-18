@@ -13,7 +13,7 @@ import Categories from '../pages/Categories';
 import Products from '../pages/Products';
 import NotFound from '../pages/Results/NotFound';
 import CategoryDescription from '../pages/Categories/CategoryDescription';
-import CreateCategory from '../pages/Categories/CreateCategory';
+import EditCategory from '../pages/Categories/EditCategory';
 
 const { Header, Sider, Content } = Layout;
 
@@ -92,8 +92,8 @@ export default function PrivateRoute() {
         >
           <Switch>
             <Route exact path="/" component={Categories} />
-            <Route exact path="/categories/new" component={CreateCategory} />
-            <Route exact path="/categories/:categoryUUID" component={CategoryDescription} />
+            <Route exact path="/categories/:categoryUuId/edit" component={EditCategory} />
+            <Route exact path="/categories/:categoryUuId" component={CategoryDescription} />
             <Route exact path="/products" component={Products} />
             <Route exact component={NotFound} />
           </Switch>
