@@ -17,6 +17,7 @@ export default (state, { type, payload }) => {
       return {
         ...state,
         categoryPayload: payload.payload,
+        editCategory: { ...state.editCategory, success: false },
         getCategories: { ...state.getCategories, success: true }
       };
     case actionTypes.category.GET_CATEGORIES_FAILURE:

@@ -1,6 +1,9 @@
 import { initialState } from '../../store/initialStates/';
 import getCategoriesReducer from './getCategoriesReducer';
 import createCategoryReducer from './createCategoryReducer';
+import editCategoryReducer from './editCategoryReducer';
+import getCategoryReducer from './getCategoryReducer';
+import deleteCategoryReducer from './deleteCategoryReducer';
 
 /**
  * A function that provides reducer based on action currently being used
@@ -11,5 +14,8 @@ import createCategoryReducer from './createCategoryReducer';
 export default (state = initialState.category, action) => {
   const getCategories = getCategoriesReducer(state, action);
   const createCategory = createCategoryReducer(state, action);
-  return getCategories || createCategory || state;
+  const getCategory = getCategoryReducer(state, action);
+  const editCategory = editCategoryReducer(state, action);
+  const deleteCategory = deleteCategoryReducer(state, action);
+  return getCategories || createCategory || getCategory || editCategory || deleteCategory || state;
 };
