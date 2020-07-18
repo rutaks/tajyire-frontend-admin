@@ -37,7 +37,7 @@ const EditCategory = ({
 
   useEffect(() => {
     getCategoryAction({ categoryUuId });
-  }, []);
+  }, [categoryUuId, getCategoryAction]);
 
   useEffect(() => {
     if (getCategoryState.payload) {
