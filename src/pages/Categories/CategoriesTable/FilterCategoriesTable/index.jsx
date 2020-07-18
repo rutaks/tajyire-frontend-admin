@@ -1,14 +1,11 @@
 import React from 'react';
-import { Form, Row, Col, Input, Button, Divider } from 'antd';
+import { Form, Row, Col, Input, Button } from 'antd';
 import PropTypes from 'prop-types';
 
 export default function FilterCategoriesTable({ style }) {
   const [form] = Form.useForm();
   return (
     <div style={style}>
-      <Divider orientation="left" style={{ fontSize: '15px' }}>
-        Search
-      </Divider>
       <Form name="advanced_search" className="ant-advanced-search-form">
         <Row gutter={24}>
           <Col span={24}>

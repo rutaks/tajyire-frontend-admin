@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
-import { Table, Space, Divider } from 'antd';
+import React from 'react';
+import { Table, Space, Divider, Row, Col, Button } from 'antd';
 import Column from 'antd/lib/table/Column';
-import { EditOutlined, UnorderedListOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, UnorderedListOutlined, DeleteOutlined, FileExcelOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import FilterCategoriesTable from './FilterCategoriesTable';
 
 export default function CategoriesTable({
   totalElements = 0,
@@ -16,11 +17,26 @@ export default function CategoriesTable({
   const onChange = (page) => {
     setCurrentPage(page - 1);
   };
+
   return (
-    <Fragment style={style}>
+    <div style={style}>
       <Divider orientation="left" style={{ fontSize: '15px' }}>
         Category List
       </Divider>
+      <FilterCategoriesTable />
+      <Row style={style.table}>
+        <Col>
+          <Button style={style.button} type="default" disabled={true} icon={<DeleteOutlined />}>
+            Delete All
+          </Button>
+        </Col>
+        <Col>
+          <Button style={style.button} type="default" loading={false} icon={<FileExcelOutlined />}>
+            Export To Excel
+          </Button>
+        </Col>
+      </Row>
+      <br />
       <Table
         pagination={{
           onChange: onChange,
@@ -50,7 +66,7 @@ export default function CategoriesTable({
           )}
         />
       </Table>
-    </Fragment>
+    </div>
   );
 }
 

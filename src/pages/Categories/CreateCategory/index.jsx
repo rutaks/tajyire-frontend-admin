@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { getBase64 } from '../../../helpers/imageHelper';
-import CreateCategoryBreadcrumb from './CreateCategoryBreadcrumb';
 import CreateCategoryForm from './CreateCategoryForm';
 import createCategoryAction from '../../../redux/actions/category/createCategory';
 import { message } from 'antd';
@@ -35,7 +34,7 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
   };
 
   useEffect(() => {
-    success && history.push('/');
+    success && message.success('Category created succesffully');
   }, [success, history]);
 
   useEffect(() => {
@@ -43,39 +42,36 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
   }, [error]);
 
   return (
-    <div>
-      <CreateCategoryBreadcrumb />
-      <Formik
-        initialValues={{
-          name: ''
-        }}
-        validationSchema={Yup.object().shape({
-          name: Yup.string().required('Category name is required')
-        })}
-        onSubmit={({ name }) => {
-          setImageError(null);
-          if (!imageFile) {
-            setImageError('Please select an image');
-            return;
-          }
-          let formData = new FormData();
-          formData.append('name', name);
-          formData.append('coverImage', imageFile);
-          createCategoryAction(formData);
-        }}
-      >
-        {({ errors, touched }) => (
-          <CreateCategoryForm
-            errors={errors}
-            loading={loading}
-            touched={touched}
-            handleImageChange={handleImageChange}
-            imageUrl={imageUrl}
-            imageError={imageError}
-          />
-        )}
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{
+        name: ''
+      }}
+      validationSchema={Yup.object().shape({
+        name: Yup.string().required('Category name is required')
+      })}
+      onSubmit={({ name }) => {
+        setImageError(null);
+        if (!imageFile) {
+          setImageError('Please select an image');
+          return;
+        }
+        let formData = new FormData();
+        formData.append('name', name);
+        formData.append('coverImage', imageFile);
+        createCategoryAction(formData);
+      }}
+    >
+      {({ errors, touched }) => (
+        <CreateCategoryForm
+          errors={errors}
+          loading={loading}
+          touched={touched}
+          handleImageChange={handleImageChange}
+          imageUrl={imageUrl}
+          imageError={imageError}
+        />
+      )}
+    </Formik>
   );
 };
 

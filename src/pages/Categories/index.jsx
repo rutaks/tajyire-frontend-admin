@@ -1,18 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Breadcrumb, Col, Row, Button } from 'antd';
-import {
-  InsertRowAboveOutlined,
-  HomeOutlined,
-  PlusOutlined,
-  DeleteOutlined,
-  FileExcelOutlined
-} from '@ant-design/icons';
+import { Breadcrumb } from 'antd';
+import { InsertRowAboveOutlined, HomeOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import CategoriesTable from './CategoriesTable';
-import FilterCategoriesTable from './CategoriesTable/FilterCategoriesTable';
 import { connect } from 'react-redux';
 import getCategoriesAction from '../../redux/actions/category/getCategories';
+import CreateCategory from './CreateCategory';
 
 /**
  * Functional component representing the
@@ -20,7 +13,6 @@ import getCategoriesAction from '../../redux/actions/category/getCategories';
  * @since version 1.0
  */
 const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }) => {
-  const history = useHistory();
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -39,8 +31,6 @@ const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }
     }
   }, [categoryPayload, currentPage]);
 
-  console.log(categories);
-
   return (
     <Fragment>
       <Breadcrumb>
@@ -52,29 +42,10 @@ const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }
           <span>Categories</span>
         </Breadcrumb.Item>
       </Breadcrumb>
-      <Row style={styles.table}>
-        <Col>
-          <Button
-            onClick={() => history.push('/categories/new')}
-            style={styles.button}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
-            New Category
-          </Button>
-        </Col>
-        <Col>
-          <Button style={styles.button} type="default" disabled={true} icon={<DeleteOutlined />}>
-            Delete All
-          </Button>
-        </Col>
-        <Col>
-          <Button style={styles.button} type="default" loading={false} icon={<FileExcelOutlined />}>
-            Export To Excel
-          </Button>
-        </Col>
-      </Row>
-      <FilterCategoriesTable />
+
+      <br />
+      <CreateCategory />
+
       <CategoriesTable
         currentPage={currentPage + 1}
         totalElements={totalElements}
@@ -89,10 +60,10 @@ const Categories = ({ getCategoriesState, getCategoriesAction, categoryPayload }
 
 const styles = {
   table: {
-    'padding-top': '50px'
+    paddingTop: '50px'
   },
   button: {
-    'margin-left': '5px'
+    marginLeft: '5px'
   }
 };
 

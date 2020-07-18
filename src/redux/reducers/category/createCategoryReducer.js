@@ -15,6 +15,10 @@ export default (state, { type, payload }) => {
     case actionTypes.category.CREATE_CATEGORY_SUCCESS:
       return {
         ...state,
+        categoryPayload: {
+          ...state.categoryPayload,
+          content: [payload.payload, ...state.categoryPayload.content]
+        },
         createCategory: { ...state.createCategory, success: true }
       };
     case actionTypes.category.CREATE_CATEGORY_FAILURE:

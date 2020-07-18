@@ -12,12 +12,12 @@ import { message } from 'antd';
  * @since version 1.0
  */
 export default function CreateCategoryForm({
-  loading,
-  imageError,
-  errors,
-  touched,
-  handleImageChange,
-  imageUrl
+  loading = false,
+  imageError = null,
+  errors = {},
+  touched = {},
+  handleImageChange = () => {},
+  imageUrl = ''
 }) {
   useEffect(() => {
     if (imageError) {
@@ -63,11 +63,11 @@ CreateCategoryForm.propTypes = {
   /** Image Error message */
   imageError: PropTypes.string,
   /** Form array holding all form related errors */
-  errors: PropTypes.array,
+  errors: PropTypes.object,
   /** Form event listener holding all form related touched event  */
-  touched: PropTypes.array,
+  touched: PropTypes.object,
   /** Function to handle when upload image field has change  */
   handleImageChange: PropTypes.func,
   /** Object hloding file image local location  */
-  imageUrl: PropTypes.object
+  imageUrl: PropTypes.string
 };
