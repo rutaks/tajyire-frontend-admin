@@ -10,29 +10,26 @@ import {
 } from '@ant-design/icons';
 import FilterSubCategoriesTable from './FilterSubCategoriesTable';
 import { Link } from 'react-router-dom';
-const data = [
-  {
-    key: '1',
-    id: '1',
-    name: 'John Brown'
-  },
-  {
-    key: '2',
-    id: '2',
-    name: 'Jim Green'
-  },
-  {
-    key: '3',
-    id: '3',
-    name: 'Joe Black'
-  }
-];
+import PropTypes from 'prop-types';
+import CreateSubCategory from '../../CreateSubCategory';
 
-export default function SubCategoriesTable({ style }) {
+export default function SubCategoriesTable({
+  categoryName = '',
+  totalElements = 0,
+  currentPage = 0,
+  setCurrentPage = () => {},
+  isLoading = true,
+  categoryArr = [],
+  deleteSubCategory,
+  style
+}) {
+  const onChange = (page) => {
+    setCurrentPage(page - 1);
+  };
   return (
     <Fragment style={style}>
       <Divider orientation="left" style={{ fontSize: '15px' }}>
-        Sub Categories of Electronics
+        {`Sub Categories of ${categoryName}`}
       </Divider>
       <Row>
         <Col>
@@ -51,14 +48,25 @@ export default function SubCategoriesTable({ style }) {
           </Button>
         </Col>
       </Row>
+      <br />
+      <CreateSubCategory />
       <FilterSubCategoriesTable style={styles.table} />
-      <Table dataSource={data} style={styles.table}>
-        <Column title="ID" width="20%" dataIndex="id" key="id" />
+      <Table
+        pagination={{
+          onChange: onChange,
+          current: currentPage,
+          total: totalElements
+        }}
+        loading={isLoading}
+        dataSource={categoryArr}
+        style={styles.table}
+      >
+        <Column title="ID" width="20%" dataIndex="index" key="index" />
         <Column title="Name" width="60%" dataIndex="name" key="name" />
         <Column
           title="Action"
           key="action"
-          render={(text, record) => (
+          render={(category) => (
             <Space size="middle">
               <Link>
                 <EditOutlined />
@@ -66,7 +74,7 @@ export default function SubCategoriesTable({ style }) {
               <Link>
                 <UnorderedListOutlined />
               </Link>
-              <Link>
+              <Link onClick={() => deleteSubCategory(category.uuid)}>
                 <DeleteOutlined />
               </Link>
             </Space>
@@ -76,6 +84,20 @@ export default function SubCategoriesTable({ style }) {
     </Fragment>
   );
 }
+
+SubCategoriesTable.propTypes = {
+  /** Name of current category displayed */
+  categoryName: PropTypes.string,
+  /** Css Style props  */
+  style: PropTypes.object,
+  getCategoriesState: PropTypes.object,
+  totalElements: PropTypes.number,
+  currentPage: PropTypes.number,
+  setCurrentPage: PropTypes.func,
+  isLoading: PropTypes.bool,
+  categoryArr: PropTypes.array,
+  deleteSubCategory: PropTypes.func
+};
 
 const styles = {
   table: {

@@ -34,12 +34,20 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
   };
 
   useEffect(() => {
-    success && message.success('Category created succesffully');
+    if (success) {
+      message.success('Category created succesffully');
+      clearFields();
+    }
   }, [success, history]);
 
   useEffect(() => {
     error && message.error(error || 'Could not create category');
   }, [error]);
+
+  const clearFields = () => {
+    setImageUrl('');
+    setImageFile(null);
+  };
 
   return (
     <Formik

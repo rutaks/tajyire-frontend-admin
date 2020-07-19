@@ -58,7 +58,7 @@ export default function CategoriesTable({
                 <Link to={`categories/${category.uuid}/edit`}>
                   <EditOutlined />
                 </Link>
-                <Link>
+                <Link to={`categories/${category.uuid}`}>
                   <UnorderedListOutlined />
                 </Link>
                 <Link onClick={() => deleteCategory(category.uuid)}>

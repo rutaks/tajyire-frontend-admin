@@ -6,9 +6,17 @@ export default ({ page = 0, size = 10, sortBy = 'id', sortDirection = 'DESC' }) 
     apiAction({
       method: 'get',
       url: `/api/v1/categories?page=${page}&size=${size}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
-      onStart: actionTypes.category.GET_CATEGORIES_START,
-      onEnd: actionTypes.category.GET_CATEGORIES_END,
-      onSuccess: actionTypes.category.GET_CATEGORIES_SUCCESS,
-      onFailure: actionTypes.category.GET_CATEGORIES_FAILURE
+      onStart:
+        page === -1
+          ? actionTypes.category.GET_ALL_CATEGORIES_START
+          : actionTypes.category.GET_CATEGORIES_START,
+      onEnd:
+        page === -1 ? actionTypes.category.GET_ALL_CATEGORIES_END : actionTypes.category.GET_CATEGORIES_END,
+      onSuccess:
+        page === -1
+          ? actionTypes.category.GET_ALL_CATEGORIES_SUCCESS
+          : actionTypes.category.GET_CATEGORIES_SUCCESS,
+      onFailure:
+        page === -1 ? actionTypes.category.GET_ALL_CATEGORIES_END : actionTypes.category.GET_CATEGORIES_END
     })
   );

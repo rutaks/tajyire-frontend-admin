@@ -8,6 +8,13 @@ export const categoryInitialState = {
     message: null,
     error: null
   },
+  getAllCategories: {
+    payload: null,
+    success: false,
+    loading: false,
+    message: null,
+    error: null
+  },
   getCategory: {
     payload: null,
     success: false,
@@ -28,6 +35,21 @@ export const categoryInitialState = {
     error: null
   },
   deleteCategory: {
+    success: false,
+    loading: false,
+    message: null,
+    error: null
+  },
+  getSubCategories: {
+    payload: {
+      content: null
+    },
+    success: false,
+    loading: false,
+    message: null,
+    error: null
+  },
+  createSubCategory: {
     success: false,
     loading: false,
     message: null,
