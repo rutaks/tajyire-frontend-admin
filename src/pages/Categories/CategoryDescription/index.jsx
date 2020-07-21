@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Descriptions, Spin } from 'antd';
+import { Descriptions, message, Spin } from 'antd';
 import SubCategoriesTable from './SubCategoriesTable';
 import { connect } from 'react-redux';
 import getCategoryAction from '../../../redux/actions/category/getCategory';
 import getSubCategoriesAction from '../../../redux/actions/category/getSubCategories';
+import deleteSubCategoryAction from '../../../redux/actions/category/deleteSubCategory';
 import PropTypes from 'prop-types';
 import './style.css';
 
@@ -12,6 +13,8 @@ const CategoryDescription = ({
   getCategoryAction,
   getCategoryState: { loading, payload },
   getSubCategoriesState,
+  deleteSubCategoryState,
+  deleteSubCategoryAction,
   match
 }) => {
   const { categoryUuId } = match.params;
@@ -55,6 +58,28 @@ const CategoryDescription = ({
     }
   }, [getSubCategoriesState.payload, currentPage]);
 
+  useEffect(() => {
+    if (deleteSubCategoryState.loading) {
+      message.loading('Removing Item...', 2.5);
+    }
+  }, [deleteSubCategoryState.loading]);
+
+  useEffect(() => {
+    if (deleteSubCategoryState.error) {
+      message.error('Could not remove item', 2.5);
+    }
+  }, [deleteSubCategoryState.error]);
+
+  useEffect(() => {
+    if (deleteSubCategoryState.success) {
+      message.success('Item removed successfully', 2.5);
+    }
+  }, [deleteSubCategoryState.success]);
+
+  const deleteSubCategory = (subCategoryUuId) => {
+    deleteSubCategoryAction({ subCategoryUuId });
+  };
+
   return (
     <Fragment>
       {loading ? (
@@ -76,9 +101,10 @@ const CategoryDescription = ({
           <SubCategoriesTable
             currentPage={currentPage + 1}
             totalElements={totalElements}
-            isLoading={getSubCategoriesState.loading}
+            isLoading={getSubCategoriesState.loading || deleteSubCategoryState.loading}
             categoryArr={subCategories}
             setCurrentPage={setCurrentPage}
+            deleteSubCategory={deleteSubCategory}
             categoryName={category.name}
           />
         </Fragment>
@@ -97,12 +123,23 @@ CategoryDescription.propTypes = {
   /** API Action linked with redux to get a category by ID */
   getCategoryAction: PropTypes.func,
   /** API Action linked with redux to get a sub-categories buy category UUID */
-  getSubCategoriesAction: PropTypes.func
+  getSubCategoriesAction: PropTypes.func,
+  /** API Action linked with redux to delete a sub-category by UUID */
+  deleteSubCategoryAction: PropTypes.func,
+  /** Redux delete category state */
+  deleteSubCategoryState: PropTypes.object,
+  /** API Action linked with redux to delete a sub-category by UUID */
+  deleteSubAction: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   getCategoryState: state.category.getCategory,
+  deleteSubCategoryState: state.category.deleteSubCategory,
   getSubCategoriesState: state.category.getSubCategories
 });
 
-export default connect(mapStateToProps, { getCategoryAction, getSubCategoriesAction })(CategoryDescription);
+export default connect(mapStateToProps, {
+  getCategoryAction,
+  getSubCategoriesAction,
+  deleteSubCategoryAction
+})(CategoryDescription);
