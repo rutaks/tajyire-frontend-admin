@@ -7,6 +7,9 @@ import getCategoryReducer from './getCategoryReducer';
 import deleteCategoryReducer from './deleteCategoryReducer';
 import getSubCategoriesReducer from './getSubCategoriesReducer';
 import createSubCategoryReducer from './createSubCategoryReducer';
+import getSubCategoryReducer from './getSubCategoryReducer';
+import editSubCategoryReducer from './editSubCategoryReducer';
+import deleteSubCategoryReducer from './deleteSubCategoryReducer';
 
 /**
  * A function that provides reducer based on action currently being used
@@ -23,6 +26,9 @@ export default (state = initialState.category, action) => {
   const deleteCategory = deleteCategoryReducer(state, action);
   const getSubCategories = getSubCategoriesReducer(state, action);
   const createSubCategory = createSubCategoryReducer(state, action);
+  const getSubCategory = getSubCategoryReducer(state, action);
+  const editSubCategory = editSubCategoryReducer(state, action);
+  const deleteSubCategory = deleteSubCategoryReducer(state, action);
   return (
     getCategories ||
     getAllCategories ||
@@ -32,6 +38,9 @@ export default (state = initialState.category, action) => {
     deleteCategory ||
     getSubCategories ||
     createSubCategory ||
+    getSubCategory ||
+    editSubCategory ||
+    deleteSubCategory ||
     state
   );
 };

@@ -26,7 +26,7 @@ export default (state, { type, payload }) => {
     case actionTypes.category.CREATE_SUBCATEGORY_FAILURE:
       return {
         ...state,
-        createSubCategory: { ...state.createSubCategory, error: payload.message }
+        createSubCategory: { ...state.createSubCategory, error: payload }
       };
     default:
       return null;

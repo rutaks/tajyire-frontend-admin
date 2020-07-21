@@ -14,6 +14,8 @@ import Products from '../pages/Products';
 import NotFound from '../pages/Results/NotFound';
 import CategoryDescription from '../pages/Categories/CategoryDescription';
 import EditCategory from '../pages/Categories/EditCategory';
+import EditSubCategory from '../pages/Categories/EditSubCategory';
+import SubCategoryDescription from '../pages/Categories/SubCategoryDescription';
 
 const { Header, Sider, Content } = Layout;
 
@@ -86,14 +88,15 @@ export default function PrivateRoute() {
           className="site-layout-background"
           style={{
             margin: '24px 16px',
-            padding: 24,
-            minHeight: 280
+            padding: 24
           }}
         >
           <Switch>
             <Route exact path="/" component={Categories} />
-            <Route exact path="/categories/:categoryUuId/edit" component={EditCategory} />
             <Route exact path="/categories/:categoryUuId" component={CategoryDescription} />
+            <Route exact path="/categories/:categoryUuId/edit" component={EditCategory} />
+            <Route exact path="/sub-categories/:subCategoryUuId" component={SubCategoryDescription} />
+            <Route exact path="/sub-categories/:subCategoryUuId/edit" component={EditSubCategory} />
             <Route exact path="/products" component={Products} />
             <Route exact component={NotFound} />
           </Switch>

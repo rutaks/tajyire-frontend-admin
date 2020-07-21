@@ -66,15 +66,15 @@ export default function SubCategoriesTable({
         <Column
           title="Action"
           key="action"
-          render={(category) => (
+          render={(subCategory) => (
             <Space size="middle">
-              <Link>
+              <Link to={`/sub-categories/${subCategory.uuid}/edit`}>
                 <EditOutlined />
               </Link>
-              <Link>
+              <Link to={`/sub-categories/${subCategory.uuid}`}>
                 <UnorderedListOutlined />
               </Link>
-              <Link onClick={() => deleteSubCategory(category.uuid)}>
+              <Link onClick={() => deleteSubCategory(subCategory.uuid)}>
                 <DeleteOutlined />
               </Link>
             </Space>

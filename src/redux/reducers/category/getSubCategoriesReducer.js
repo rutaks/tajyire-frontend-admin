@@ -15,12 +15,13 @@ export default (state, { type, payload }) => {
     case actionTypes.category.GET_SUBCATEGORIES_SUCCESS:
       return {
         ...state,
+        editSubCategory: { ...state.editSubCategory, success: false },
         getSubCategories: { ...state.getSubCategories, payload: payload.payload, success: true }
       };
     case actionTypes.category.GET_SUBCATEGORIES_FAILURE:
       return {
         ...state,
-        getSubCategories: { ...state.getSubCategories, error: payload.message }
+        getSubCategories: { ...state.getSubCategories, error: payload }
       };
     default:
       return null;
