@@ -71,7 +71,7 @@ export default function SubCategoriesTable({
               <Link to={`/sub-categories/${subCategory.uuid}/edit`}>
                 <EditOutlined />
               </Link>
-              <Link>
+              <Link to={`/sub-categories/${subCategory.uuid}`}>
                 <UnorderedListOutlined />
               </Link>
               <Link onClick={() => deleteSubCategory(subCategory.uuid)}>
