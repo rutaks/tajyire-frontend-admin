@@ -43,7 +43,7 @@ const CategoryDescription = ({
     if (category.uuid !== null) {
       getSubCategoriesAction({ categoryUuId, page: currentPage });
     }
-  }, [category.uuid, getSubCategoriesAction, currentPage]);
+  }, [category.uuid, getSubCategoriesAction, categoryUuId, currentPage]);
 
   useEffect(() => {
     if (getSubCategoriesState.payload.content) {

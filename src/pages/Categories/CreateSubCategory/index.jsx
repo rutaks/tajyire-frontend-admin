@@ -47,7 +47,7 @@ const CreateSubCategory = ({
 
   useEffect(() => {
     categoryError && message.error(error || categoryError);
-  }, [categoryError]);
+  }, [categoryError, error]);
 
   useEffect(() => {
     error && message.error(error || 'Could not create sub category');

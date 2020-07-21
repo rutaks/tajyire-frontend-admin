@@ -68,7 +68,7 @@ export default function SubCategoriesTable({
           key="action"
           render={(category) => (
             <Space size="middle">
-              <Link>
+              <Link to={`/sub-categories/${category.uuid}/edit`}>
                 <EditOutlined />
               </Link>
               <Link>

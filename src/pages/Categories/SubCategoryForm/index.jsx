@@ -24,7 +24,8 @@ const SubCategoryForm = ({
   handleImageChange = () => {},
   imageUrl = '',
   getAllCategoriesState,
-  getCategoriesAction
+  getCategoriesAction,
+  categoryDefaultValue
 }) => {
   const [categories, setCategories] = useState([]);
 
@@ -60,7 +61,13 @@ const SubCategoryForm = ({
         <Input name="name" />
       </Form.Item>
       <p>Parent Category</p>
-      <Select showSearch onChange={onSelectChange} optionFilterProp="children" style={{ width: '20%' }}>
+      <Select
+        showSearch
+        defaultOpen={categoryDefaultValue}
+        onChange={onSelectChange}
+        optionFilterProp="children"
+        style={{ width: '20%' }}
+      >
         {categories.map((d) => (
           <Option key={d.id}>{d.name}</Option>
         ))}
@@ -101,7 +108,8 @@ SubCategoryForm.propTypes = {
   /** Object hloding file image local location  */
   imageUrl: PropTypes.string,
   getCategoriesAction: PropTypes.func,
-  getAllCategoriesState: PropTypes.object
+  getAllCategoriesState: PropTypes.object,
+  categoryDefaultValue: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
