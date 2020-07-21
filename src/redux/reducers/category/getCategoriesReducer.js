@@ -23,7 +23,7 @@ export default (state, { type, payload }) => {
     case actionTypes.category.GET_CATEGORIES_FAILURE:
       return {
         ...state,
-        getCategories: { ...state.getCategories, error: payload.message }
+        getCategories: { ...state.getCategories, error: payload }
       };
     default:
       return null;

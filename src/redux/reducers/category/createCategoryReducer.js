@@ -24,7 +24,7 @@ export default (state, { type, payload }) => {
     case actionTypes.category.CREATE_CATEGORY_FAILURE:
       return {
         ...state,
-        createCategory: { ...state.createCategory, error: payload.message }
+        createCategory: { ...state.createCategory, error: payload }
       };
     default:
       return null;

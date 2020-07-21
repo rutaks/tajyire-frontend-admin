@@ -21,7 +21,7 @@ export default (state, { type, payload }) => {
     case actionTypes.category.GET_SUBCATEGORIES_FAILURE:
       return {
         ...state,
-        getSubCategories: { ...state.getSubCategories, error: payload.message }
+        getSubCategories: { ...state.getSubCategories, error: payload }
       };
     default:
       return null;
