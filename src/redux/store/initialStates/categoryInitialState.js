@@ -56,6 +56,13 @@ export const categoryInitialState = {
     message: null,
     error: null
   },
+  getAllSubCategories: {
+    payload: null,
+    success: false,
+    loading: false,
+    message: null,
+    error: null
+  },
   createSubCategory: {
     success: false,
     loading: false,
