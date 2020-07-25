@@ -71,6 +71,6 @@ CategoryForm.propTypes = {
   touched: PropTypes.object,
   /** Function to handle when upload image field has change  */
   handleImageChange: PropTypes.func,
-  /** Object hloding file image local location  */
+  /** Object holding file image local location  */
   imageUrl: PropTypes.string
 };

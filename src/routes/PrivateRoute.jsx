@@ -16,6 +16,7 @@ import CategoryDescription from '../pages/Categories/CategoryDescription';
 import EditCategory from '../pages/Categories/EditCategory';
 import EditSubCategory from '../pages/Categories/EditSubCategory';
 import SubCategoryDescription from '../pages/Categories/SubCategoryDescription';
+import CreateProduct from '../pages/Products/CreateProduct';
 
 const { Header, Sider, Content } = Layout;
 
@@ -98,6 +99,7 @@ export default function PrivateRoute() {
             <Route exact path="/sub-categories/:subCategoryUuId" component={SubCategoryDescription} />
             <Route exact path="/sub-categories/:subCategoryUuId/edit" component={EditSubCategory} />
             <Route exact path="/products" component={Products} />
+            <Route exact path="/products/new" component={CreateProduct} />
             <Route exact component={NotFound} />
           </Switch>
         </Content>

@@ -16,21 +16,22 @@ import { message } from 'antd';
  */
 const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, success, error } }) => {
   const history = useHistory();
-  const [imageUrl, setImageUrl] = useState('');
-  const [imageFile, setImageFile] = useState(null);
+  const [imageUrls, setImageUrls] = useState('');
+  const [imageFiles, setImageFiles] = useState(null);
   const [imageError, setImageError] = useState(null);
 
   const handleImageChange = (info) => {
-    const files = info.file.originFileObj;
-    try {
-      getBase64(info.file.originFileObj, (imageUrl) => {
-        setImageUrl(false);
-        setImageUrl(imageUrl);
-      });
-      setImageFile(files);
-    } catch (error) {
-      console.log('IMAGE UPLOAD ERROR: ', error);
-    }
+    console.log(info);
+    // const files = info.file.originFileObj;
+    // try {
+    //   getBase64(info.file.originFileObj, (imageUrl) => {
+    //     setImageUrls(false);
+    //     setImageUrls(imageUrl);
+    //   });
+    //   setImageFiles(files);
+    // } catch (error) {
+    //   console.log('IMAGE UPLOAD ERROR: ', error);
+    // }
   };
 
   useEffect(() => {
@@ -45,8 +46,8 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
   }, [error]);
 
   const clearFields = () => {
-    setImageUrl('');
-    setImageFile(null);
+    setImageUrls('');
+    setImageFiles(null);
   };
 
   return (
@@ -59,13 +60,13 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
       })}
       onSubmit={({ name }) => {
         setImageError(null);
-        if (!imageFile) {
+        if (!imageFiles) {
           setImageError('Please select an image');
           return;
         }
         let formData = new FormData();
         formData.append('name', name);
-        formData.append('coverImage', imageFile);
+        formData.append('coverImage', imageFiles);
         createCategoryAction(formData);
       }}
     >
@@ -75,7 +76,7 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
           loading={loading}
           touched={touched}
           handleImageChange={handleImageChange}
-          imageUrl={imageUrl}
+          imageUrl={imageUrls}
           imageError={imageError}
         />
       )}
