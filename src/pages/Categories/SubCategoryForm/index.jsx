@@ -31,7 +31,7 @@ const SubCategoryForm = ({
 
   useEffect(() => {
     getCategoriesAction({ page: -1 });
-  }, []);
+  }, [getCategoriesAction]);
 
   useEffect(() => {
     if (getAllCategoriesState.payload) {

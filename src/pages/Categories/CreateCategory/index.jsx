@@ -21,17 +21,16 @@ const CreateCategory = ({ createCategoryAction, createCategoryState: { loading, 
   const [imageError, setImageError] = useState(null);
 
   const handleImageChange = (info) => {
-    console.log(info);
-    // const files = info.file.originFileObj;
-    // try {
-    //   getBase64(info.file.originFileObj, (imageUrl) => {
-    //     setImageUrls(false);
-    //     setImageUrls(imageUrl);
-    //   });
-    //   setImageFiles(files);
-    // } catch (error) {
-    //   console.log('IMAGE UPLOAD ERROR: ', error);
-    // }
+    const files = info.file.originFileObj;
+    try {
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setImageUrls(false);
+        setImageUrls(imageUrl);
+      });
+      setImageFiles(files);
+    } catch (error) {
+      console.log('IMAGE UPLOAD ERROR: ', error);
+    }
   };
 
   useEffect(() => {
