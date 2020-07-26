@@ -1,4 +1,4 @@
-export const categoryActionTypes = {
+export const productActionTypes = {
   //GET CATEGORIES SECTION
   GET_PRODUCTS_START: 'GET_PRODUCTS_START',
   GET_PRODUCTS_END: 'GET_PRODUCTS_END',

@@ -6,11 +6,11 @@ export default (payload) => (dispatch) =>
     apiAction({
       httpOptions: { headers: { 'Content-Type': 'multipart/form-data' } },
       method: 'post',
-      url: `/api/v1/categories`,
+      url: `/api/v1/products`,
       data: payload,
-      onStart: actionTypes.category.CREATE_CATEGORY_START,
-      onEnd: actionTypes.category.CREATE_CATEGORY_END,
-      onSuccess: actionTypes.category.CREATE_CATEGORY_SUCCESS,
-      onFailure: actionTypes.category.CREATE_CATEGORY_FAILURE
+      onStart: actionTypes.product.CREATE_PRODUCT_START,
+      onEnd: actionTypes.product.CREATE_PRODUCT_END,
+      onSuccess: actionTypes.product.CREATE_PRODUCT_SUCCESS,
+      onFailure: actionTypes.product.CREATE_PRODUCT_FAILURE
     })
   );

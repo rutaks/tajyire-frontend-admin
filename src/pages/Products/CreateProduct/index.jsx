@@ -4,9 +4,8 @@ import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
-import { getBase64 } from '../../../helpers/imageHelper';
 import ProductForm from '../ProductForm';
-import createCategoryAction from '../../../redux/actions/category/createCategory';
+import createProductAction from '../../../redux/actions/product/createProduct';
 import { Divider, message } from 'antd';
 
 /**
@@ -14,7 +13,7 @@ import { Divider, message } from 'antd';
  * Category Form used to create or edit a category
  * @since version 1.0
  */
-const CreateProduct = ({ createCategoryAction, createCategoryState: { loading, success, error } }) => {
+const CreateProduct = ({ createProductAction, createProductState: { loading, success, error } }) => {
   const history = useHistory();
   const [imageError, setImageError] = useState(null);
   const [fileList, setFileList] = useState([]);
@@ -23,24 +22,16 @@ const CreateProduct = ({ createCategoryAction, createCategoryState: { loading, s
     setFileList(fileList);
   };
 
-  // const convertToImageFile = (object) => {
-  //   object.originFileObj
-  // };
-
   useEffect(() => {
     if (success) {
       message.success('Category created succesffully');
-      clearFields();
+      history.goBack();
     }
   }, [success, history]);
 
   useEffect(() => {
     error && message.error(error || 'Could not create category');
   }, [error]);
-
-  const clearFields = () => {
-    setFileList([]);
-  };
 
   return (
     <Fragment>
@@ -67,25 +58,20 @@ const CreateProduct = ({ createCategoryAction, createCategoryState: { loading, s
         })}
         onSubmit={({ name, category, price, currency, discount, discountDeadline }) => {
           setImageError(null);
-          if (fileList < 1) {
-            setImageError('Please select an image');
-            return;
-          }
-          let parsedImages = [];
-          parsedImages = fileList.map((file) => {
-            return file.originFileObj;
-          });
+          if (fileList < 1) return setImageError('Please select an image');
           let formData = new FormData();
           formData.append('name', name);
-          formData.append('category', category);
           formData.append('price', price);
-          formData.append('currency', currency);
-          formData.append('discount', discount);
-          formData.append('discountDeadline', discountDeadline);
-          formData.append('images', parsedImages);
+          formData.append('priceCurrency', currency);
           formData.append('categoryId', category);
-          // todo Add product creation process
-          // createCategoryAction(formData);
+          for (let i = 0; i < fileList.length; i++) {
+            formData.append('images', fileList[i].originFileObj);
+          }
+          if (discount !== null) {
+            formData.append('discountPrice', discount);
+            formData.append('discountExpiryDate', discountDeadline);
+          }
+          createProductAction(formData);
         }}
       >
         {({ errors, touched, values }) => (
@@ -106,13 +92,13 @@ const CreateProduct = ({ createCategoryAction, createCategoryState: { loading, s
 
 CreateProduct.propTypes = {
   /** Redux create category state */
-  createCategoryState: PropTypes.object,
+  createProductState: PropTypes.object,
   /** API Action linked with redux to create a category */
-  createCategoryAction: PropTypes.func
+  createProductAction: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
-  createCategoryState: state.category.createCategory
+  createProductState: state.product.createProduct
 });
 
-export default connect(mapStateToProps, { createCategoryAction })(CreateProduct);
+export default connect(mapStateToProps, { createProductAction })(CreateProduct);

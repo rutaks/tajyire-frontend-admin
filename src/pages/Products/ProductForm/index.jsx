@@ -45,14 +45,14 @@ const ProductForm = ({
 
   useEffect(() => {
     getCategoriesAction({ page: -1 });
-  }, []);
+  }, [getCategoriesAction]);
 
   useEffect(() => {
     if (getAllCategoriesState.payload) {
       const parsedCategories = getAllCategoriesState.payload.map((category) => {
         return { id: category.uuid, title: category.name, isLeaf: false };
       });
-      setstate({ ...state, categories: parsedCategories });
+      setstate((state) => ({ ...state, categories: parsedCategories }));
     }
   }, [getAllCategoriesState.payload]);
 
