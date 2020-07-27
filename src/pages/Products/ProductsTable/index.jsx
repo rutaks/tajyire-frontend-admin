@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Table, Space, Divider, Row, Col, Button } from 'antd';
 import Column from 'antd/lib/table/Column';
@@ -12,13 +12,14 @@ import {
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FilterProductsTable from '../FilterProductsTable';
+import Moment from 'react-moment';
 
 export default function ProductsTable({
   totalElements = 0,
   currentPage = 0,
   setCurrentPage = () => {},
   isLoading = true,
-  categoryArr = [],
+  currentArray = [],
   deleteCategory,
   styles
 }) {
@@ -43,7 +44,7 @@ export default function ProductsTable({
             type="primary"
             icon={<PlusOutlined />}
           >
-            New Category
+            New Product
           </Button>
         </Col>
         <Col>
@@ -66,29 +67,37 @@ export default function ProductsTable({
           total: totalElements
         }}
         loading={isLoading}
-        dataSource={categoryArr}
+        dataSource={currentArray}
       >
-        <Column title="ID" width="20%" dataIndex="index" key="index" />
-        <Column title="Name" dataIndex="name" key="name" />
+        <Column title="ID" dataIndex="index" key="index" />
+        <Column title="Name" width="12%" dataIndex="name" key="name" />
         <Column
           title="Price"
           key="price"
           render={(product) => {
-            return <p>{`${product.name} ${product.currency}`}</p>;
+            return <Fragment>{`${product.price} ${product.priceCurrency}`}</Fragment>;
           }}
         />
         <Column
-          title="Price"
+          title="Discount"
           key="discount"
+          width="25%"
           render={(product) => {
-            return <p>{`${product.discount} ends on ${product.discountDeadline}`}</p>;
+            // 2020-01-02T23:00:26.000+0000
+            return product.discountPrice ? (
+              <Fragment>
+                {`${product.discountPrice} ${product.priceCurrency} ends on `}
+                <Moment format="D MMM YY - HH:mm" date={product.discountExpiryDate} />
+              </Fragment>
+            ) : (
+              <p>No Discount Currently</p>
+            );
           }}
         />
         <Column
-          title="Category"
-          key="name"
+          title="Under"
           render={(product) => {
-            return <p>{`${product.category.name}`}</p>;
+            return <Fragment>{`${product.category.name}`}</Fragment>;
           }}
         />
         <Column
@@ -121,7 +130,7 @@ ProductsTable.propTypes = {
   currentPage: PropTypes.number,
   setCurrentPage: PropTypes.func,
   isLoading: PropTypes.bool,
-  categoryArr: PropTypes.array,
+  currentArray: PropTypes.array,
   deleteCategory: PropTypes.func,
   styles: PropTypes.object
 };
