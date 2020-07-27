@@ -100,7 +100,7 @@ SubCategoryForm.propTypes = {
   /** Form array holding all form related errors */
   errors: PropTypes.object,
   /** Form event listener changing currently selected item  */
-  onSelectChange: PropTypes.object,
+  onSelectChange: PropTypes.func,
   /** Form event listener holding all form related touched event  */
   touched: PropTypes.object,
   /** Function to handle when upload image field has change  */
