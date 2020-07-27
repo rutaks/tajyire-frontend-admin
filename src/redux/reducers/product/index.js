@@ -1,5 +1,7 @@
 import { initialState } from '../../store/initialStates/';
+import getProductsReducer from './getProductsReducer';
 import createProductReducer from './createProductReducer';
+import deleteProductReducer from './deleteProductReducer';
 
 /**
  * A function that provides reducer based on action currently being used
@@ -8,6 +10,8 @@ import createProductReducer from './createProductReducer';
  * @since 29.06.2020
  */
 export default (state = initialState.product, action) => {
+  const getProducts = getProductsReducer(state, action);
   const createProduct = createProductReducer(state, action);
-  return createProduct || state;
+  const deleteProduct = deleteProductReducer(state, action);
+  return getProducts || createProduct || deleteProduct || state;
 };

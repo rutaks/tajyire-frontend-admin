@@ -20,7 +20,7 @@ export default function ProductsTable({
   setCurrentPage = () => {},
   isLoading = true,
   currentArray = [],
-  deleteCategory,
+  deleteItem = () => {},
   styles
 }) {
   const history = useHistory();
@@ -61,6 +61,7 @@ export default function ProductsTable({
       <br />
 
       <Table
+        rowKey="index"
         pagination={{
           onChange: onChange,
           current: currentPage,
@@ -69,21 +70,18 @@ export default function ProductsTable({
         loading={isLoading}
         dataSource={currentArray}
       >
-        <Column title="ID" dataIndex="index" key="index" />
-        <Column title="Name" width="12%" dataIndex="name" key="name" />
+        <Column title="ID" dataIndex="index" />
+        <Column title="Name" width="12%" dataIndex="name" />
         <Column
           title="Price"
-          key="price"
           render={(product) => {
             return <Fragment>{`${product.price} ${product.priceCurrency}`}</Fragment>;
           }}
         />
         <Column
           title="Discount"
-          key="discount"
           width="25%"
           render={(product) => {
-            // 2020-01-02T23:00:26.000+0000
             return product.discountPrice ? (
               <Fragment>
                 {`${product.discountPrice} ${product.priceCurrency} ends on `}
@@ -102,7 +100,6 @@ export default function ProductsTable({
         />
         <Column
           title="Action"
-          key="action"
           render={(product) => {
             return (
               <Space size="middle">
@@ -112,7 +109,7 @@ export default function ProductsTable({
                 <Link to={`products/${product.uuid}`}>
                   <UnorderedListOutlined />
                 </Link>
-                <Link onClick={() => deleteCategory(product.uuid)}>
+                <Link to="" onClick={() => deleteItem(product.uuid)}>
                   <DeleteOutlined />
                 </Link>
               </Space>
@@ -131,6 +128,6 @@ ProductsTable.propTypes = {
   setCurrentPage: PropTypes.func,
   isLoading: PropTypes.bool,
   currentArray: PropTypes.array,
-  deleteCategory: PropTypes.func,
+  deleteItem: PropTypes.func,
   styles: PropTypes.object
 };

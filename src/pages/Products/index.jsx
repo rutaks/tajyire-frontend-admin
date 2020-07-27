@@ -5,14 +5,20 @@ import ProductsTable from './ProductsTable';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getProductsAction from '../../redux/actions/product/getProducts';
-// import deleteCategoryAction from '../../redux/actions/category/deleteCategory';
+import deleteProductAction from '../../redux/actions/product/deleteProduct';
 
 /**
  * Functional component representing the
  * List Products View
  * @since version 1.0
  */
-const Products = ({ getProductsState, getProductsAction, productPayload }) => {
+const Products = ({
+  getProductsState,
+  getProductsAction,
+  deleteProductAction,
+  deleteProductState,
+  productPayload
+}) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -33,6 +39,10 @@ const Products = ({ getProductsState, getProductsAction, productPayload }) => {
     }
   }, [productPayload, currentPage]);
 
+  const deleteProduct = (productUuId) => {
+    deleteProductAction({ productUuId });
+  };
+
   return (
     <Fragment>
       <Breadcrumb>
@@ -48,9 +58,10 @@ const Products = ({ getProductsState, getProductsAction, productPayload }) => {
       <ProductsTable
         currentPage={currentPage + 1}
         totalElements={totalElements}
-        isLoading={getProductsState.loading}
+        isLoading={getProductsState.loading || deleteProductState.loading}
         currentArray={products}
         setCurrentPage={setCurrentPage}
+        deleteItem={deleteProduct}
         styles={styles}
       />
     </Fragment>
@@ -67,13 +78,16 @@ const styles = {
 };
 Products.propTypes = {
   getProductsState: PropTypes.object,
+  deleteProductState: PropTypes.object,
   productPayload: PropTypes.object,
-  getProductsAction: PropTypes.func
+  getProductsAction: PropTypes.func,
+  deleteProductAction: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   getProductsState: state.product.getProducts,
+  deleteProductState: state.product.deleteProduct,
   productPayload: state.product.productPayload
 });
 
-export default connect(mapStateToProps, { getProductsAction })(Products);
+export default connect(mapStateToProps, { getProductsAction, deleteProductAction })(Products);

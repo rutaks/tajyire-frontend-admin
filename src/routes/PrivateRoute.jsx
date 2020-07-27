@@ -80,7 +80,7 @@ export default function PrivateRoute() {
             onClick: toggle
           })}
           <Dropdown overlay={menu}>
-            <Link className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <Link className="ant-dropdown-link" to="" onClick={(e) => e.preventDefault()}>
               {`${user.firstName} ${user.lastName}`} <DownOutlined />
             </Link>
           </Dropdown>
