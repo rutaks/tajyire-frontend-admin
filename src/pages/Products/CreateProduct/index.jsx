@@ -24,7 +24,7 @@ const CreateProduct = ({ createProductAction, createProductState: { loading, suc
 
   useEffect(() => {
     if (success) {
-      message.success('Category created succesffully');
+      message.success('Product created successfully');
       history.goBack();
     }
   }, [success, history]);

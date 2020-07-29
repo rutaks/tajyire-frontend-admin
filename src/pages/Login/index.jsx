@@ -47,11 +47,10 @@ const Login = ({ loginState, loginAction }) => {
         <Row align={'center'}>
           <Col>
             <img
-              style={{ height: '100px', width: '100px' }}
-              src={window.location.origin + '/images/logo.jpeg'}
+              style={{ height: '170px', width: '170px' }}
+              src={window.location.origin + '/images/logo-2.jpg'}
               alt="Tajyire Logo"
             />
-            <h1>Login</h1>
           </Col>
         </Row>
         <Row>
