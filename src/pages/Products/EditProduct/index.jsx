@@ -29,7 +29,6 @@ const EditProduct = ({
     id: null,
     uuid: null,
     name: '',
-    imageUrls: null,
     price: null,
     priceCurrency: null,
     discountPrice: null,
@@ -37,10 +36,12 @@ const EditProduct = ({
     category: {
       id: null,
       name: null
-    }
+    },
+    imageUrls: []
   });
   const [imageError, setImageError] = useState(null);
   const [fileList, setFileList] = useState([]);
+  const [removedImages, setRemovedImages] = useState([]);
 
   const handleImageChange = ({ fileList }) => {
     setFileList(fileList);
@@ -52,24 +53,37 @@ const EditProduct = ({
 
   useEffect(() => {
     if (getProductState.payload) {
+      const imageUrls = JSON.parse(getProductState.payload.imageUrls);
+      let parsedImages = imageUrls.map((imageUrl) => {
+        return { uid: imageUrl, name: imageUrl, status: 'done', url: imageUrl };
+      });
+      setFileList(parsedImages);
+      getProductState.payload.imageUrls = imageUrls;
       setProduct(getProductState.payload);
     }
   }, [getProductState.payload]);
 
   useEffect(() => {
     if (success) {
-      message.success('Category created succesffully');
+      message.success('Product modified successfully');
       history.goBack();
     }
   }, [success, history]);
 
   useEffect(() => {
-    success && history.push('/');
+    success && history.push('/products');
   }, [success, history]);
 
   useEffect(() => {
     error && message.error(error || 'Could not edit category');
   }, [error]);
+
+  const removeExistingImages = (image) => {
+    const index = product.imageUrls.indexOf(image.url) > -1;
+    if (index !== -1) {
+      setRemovedImages([...removedImages, image.url]);
+    }
+  };
 
   return (
     <Fragment>
@@ -82,7 +96,8 @@ const EditProduct = ({
           <Formik
             initialValues={{
               name: product.name,
-              category: product.category.name,
+              category: product.category.id,
+              categoryName: product.category.name,
               price: product.price,
               currency: product.priceCurrency,
               discount: product.discountPrice,
@@ -106,13 +121,20 @@ const EditProduct = ({
               formData.append('priceCurrency', currency);
               formData.append('categoryId', category);
               for (let i = 0; i < fileList.length; i++) {
-                formData.append('images', fileList[i].originFileObj);
+                if (fileList[i].originFileObj) {
+                  formData.append('newImages', fileList[i].originFileObj);
+                }
+              }
+              if (removedImages.length > 0) {
+                for (let i = 0; i < removedImages.length; i++) {
+                  formData.append('removedImages', removedImages[i]);
+                }
               }
               if (discount !== null) {
                 formData.append('discountPrice', discount);
                 formData.append('discountExpiryDate', discountDeadline);
               }
-              editProductAction(formData);
+              editProductAction(productUuId, formData);
             }}
           >
             {({ errors, touched, values }) => (
@@ -124,6 +146,8 @@ const EditProduct = ({
                 fileList={fileList}
                 imageError={imageError}
                 values={values}
+                formType="EDIT"
+                removeExistingImages={removeExistingImages}
               />
             )}
           </Formik>
@@ -147,7 +171,7 @@ EditProduct.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  editProductState: state.product.createProduct,
+  editProductState: state.product.editProduct,
   getProductState: state.product.getProduct
 });
 

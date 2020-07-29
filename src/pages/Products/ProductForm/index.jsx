@@ -12,6 +12,7 @@ import Modal from 'antd/lib/modal/Modal';
 import { Option } from 'antd/lib/mentions';
 import TreeSelect from 'antd/lib/tree-select';
 import asyncApi from '../../../helpers/asyncApi';
+import moment from 'moment';
 
 /**
  * Functional component representing the
@@ -28,7 +29,8 @@ const ProductForm = ({
   fileList = [],
   values,
   getAllCategoriesState,
-  getCategoriesAction
+  getCategoriesAction,
+  removeExistingImages = () => {}
 }) => {
   const [state, setstate] = useState({
     previewVisible: false,
@@ -61,6 +63,12 @@ const ProductForm = ({
       message.error(imageError);
     }
   }, [imageError]);
+
+  useEffect(() => {
+    if (formType === 'EDIT' && values.discount) {
+      setstate((state) => ({ ...state, isDiscountAreaVisible: true }));
+    }
+  }, [formType, values.discount]);
 
   const handleImagePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -122,7 +130,7 @@ const ProductForm = ({
           <Col span={6} style={style}>
             <Form.Item
               name="name"
-              label="Category Name"
+              label="Product Name"
               validateStatus={errors.name && touched.name ? 'error' : ''}
               help={touched.name && errors.name && errors.name}
             >
@@ -141,6 +149,7 @@ const ProductForm = ({
                 style={{ width: '100%' }}
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 placeholder="Please select"
+                defaultValue={values.categoryName}
                 onChange={(value) => {
                   values.category = value;
                 }}
@@ -169,6 +178,7 @@ const ProductForm = ({
             >
               <Select
                 showSearch
+                defaultValue={values.currency}
                 placeholder="Currency"
                 onChange={(value) => (values.currency = value)}
                 optionFilterProp="children"
@@ -205,6 +215,12 @@ const ProductForm = ({
               <Form.Item
                 name="discountDeadline"
                 validate={(dateObj) => {
+                  if (typeof dateObj === 'string') {
+                    return Validations.validateDeadline(
+                      dateObj ? new Date(dateObj) : null,
+                      state.isDiscountAreaVisible
+                    );
+                  }
                   return Validations.validateDeadline(
                     dateObj ? dateObj._d : null,
                     state.isDiscountAreaVisible
@@ -214,6 +230,7 @@ const ProductForm = ({
                 help={touched.discountDeadline && errors.discountDeadline && errors.discountDeadline}
               >
                 <DatePicker
+                  defaultValue={moment(values.discountDeadline)}
                   onChange={(date) => {
                     values.discountDeadline = date;
                   }}
@@ -234,6 +251,7 @@ const ProductForm = ({
           onPreview={handleImagePreview}
           beforeUpload={Validations.isValidImage}
           onChange={handleImageChange}
+          onRemove={removeExistingImages}
           customRequest={mockImageUploadRequest}
         >
           <PlusOutlined />
@@ -275,6 +293,7 @@ ProductForm.propTypes = {
   fileList: PropTypes.array,
   /** Form object holding all form related values */
   values: PropTypes.object,
+  removeExistingImages: PropTypes.func,
   getCategoriesAction: PropTypes.func,
   getAllCategoriesState: PropTypes.object,
   getAllSubCategoriesState: PropTypes.object,

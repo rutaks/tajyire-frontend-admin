@@ -1,12 +1,12 @@
 import { actionTypes } from '../../action-types';
 import apiAction from '../../../helpers/apiAction';
 
-export default (payload) => (dispatch) =>
+export default (uuid, payload) => (dispatch) =>
   dispatch(
     apiAction({
       httpOptions: { headers: { 'Content-Type': 'multipart/form-data' } },
       method: 'put',
-      url: `/api/v1/products`,
+      url: `/api/v1/products/${uuid}`,
       data: payload,
       onStart: actionTypes.product.EDIT_PRODUCT_START,
       onEnd: actionTypes.product.EDIT_PRODUCT_END,

@@ -17,6 +17,7 @@ export default (state, { type, payload }) => {
       return {
         ...state,
         productPayload: payload.payload,
+        getProduct: { ...state.getProduct, payload: null },
         editProduct: { ...state.editProduct, success: false },
         createProduct: { ...state.createProduct, success: false },
         getProducts: { ...state.getProducts, success: true }
