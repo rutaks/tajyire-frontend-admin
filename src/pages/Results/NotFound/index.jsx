@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
  * @since version-1
  */
 export default function NotFound({
-  status = '403',
-  message = 'Sorry, you are not authorized to access this page.',
+  status = '404',
+  message = 'Sorry, we looked really hard but we could not find the page',
   link = '/'
 }) {
   const history = useHistory();
@@ -23,7 +23,7 @@ export default function NotFound({
         <Button
           type="primary"
           onClick={() => {
-            history.push(link);
+            history.goBack();
           }}
         >
           Go Back

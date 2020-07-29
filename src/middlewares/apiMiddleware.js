@@ -19,7 +19,7 @@ const apiMiddleware = ({ dispatch, getState }) => (next) => async ({ type = '', 
     console.log('ERROR ~ ', error);
     console.log('ERROR_CONFIG ~ ', error.config);
     console.log('ERROR_RESPONSE ~ ', error.response);
-    const err = error.response ? error.response.data.message : error.message;
+    const err = error.response ? error.response.data.message || error.response.data : error.message;
     dispatch({
       type: payload.onFailure,
       payload: err

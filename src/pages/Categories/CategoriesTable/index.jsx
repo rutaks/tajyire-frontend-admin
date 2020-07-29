@@ -39,6 +39,7 @@ export default function CategoriesTable({
       </Row>
       <br />
       <Table
+        rowKey="index"
         pagination={{
           onChange: onChange,
           current: currentPage,
@@ -47,8 +48,8 @@ export default function CategoriesTable({
         loading={isLoading}
         dataSource={categoryArr}
       >
-        <Column title="ID" width="20%" dataIndex="index" key="index" />
-        <Column title="Name" width="60%" dataIndex="name" key="name" />
+        <Column title="ID" width="20%" dataIndex="index" />
+        <Column title="Name" width="60%" dataIndex="name" />
         <Column
           title="Action"
           key="action"
@@ -61,7 +62,7 @@ export default function CategoriesTable({
                 <Link to={`categories/${category.uuid}`}>
                   <UnorderedListOutlined />
                 </Link>
-                <Link onClick={() => deleteCategory(category.uuid)}>
+                <Link to="" onClick={() => deleteCategory(category.uuid)}>
                   <DeleteOutlined />
                 </Link>
               </Space>

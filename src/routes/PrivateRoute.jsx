@@ -16,6 +16,8 @@ import CategoryDescription from '../pages/Categories/CategoryDescription';
 import EditCategory from '../pages/Categories/EditCategory';
 import EditSubCategory from '../pages/Categories/EditSubCategory';
 import SubCategoryDescription from '../pages/Categories/SubCategoryDescription';
+import CreateProduct from '../pages/Products/CreateProduct';
+import EditProduct from '../pages/Products/EditProduct';
 
 const { Header, Sider, Content } = Layout;
 
@@ -79,7 +81,7 @@ export default function PrivateRoute() {
             onClick: toggle
           })}
           <Dropdown overlay={menu}>
-            <Link className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <Link className="ant-dropdown-link" to="" onClick={(e) => e.preventDefault()}>
               {`${user.firstName} ${user.lastName}`} <DownOutlined />
             </Link>
           </Dropdown>
@@ -98,6 +100,8 @@ export default function PrivateRoute() {
             <Route exact path="/sub-categories/:subCategoryUuId" component={SubCategoryDescription} />
             <Route exact path="/sub-categories/:subCategoryUuId/edit" component={EditSubCategory} />
             <Route exact path="/products" component={Products} />
+            <Route exact path="/products/new" component={CreateProduct} />
+            <Route exact path="/products/:productUuId/edit" component={EditProduct} />
             <Route exact component={NotFound} />
           </Switch>
         </Content>

@@ -46,6 +46,10 @@ class Validations {
     }
   }
 
+  /**
+   * Function for validating a file to be a valid image
+   * @param {*} file
+   */
   static isValidImage(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
@@ -56,6 +60,64 @@ class Validations {
       message.error('Image must smaller than 2MB!');
     }
     return isJpgOrPng && isLt2M;
+  }
+
+  /**
+   * Function for validating a price range
+   * @param {*} price the date to be validate
+   * @param {*} minPrice the minimum allowed price
+   * @param {*} maxPrice the maximum allowed price
+   * @param {*} shouldValidate boolean to check if method should validate value
+   * @return {string} error an error message that can be null
+   */
+  static validatePrice(price, minPrice, maxPrice, shouldValidate = true) {
+    let error;
+
+    if (shouldValidate) {
+      try {
+        price = parseInt(price);
+        if (isNaN(price)) return 'Amount must be a number';
+        if (price === minPrice) return `Amount can not be ${price}`;
+        if (price < minPrice) return `Amount can not be less than ${minPrice}`;
+        if (price > maxPrice) return `Amount can not be greater than ${maxPrice}`;
+      } catch (error) {
+        return 'Amount must be a number';
+      }
+    }
+    return error;
+  }
+
+  /**
+   * Function for validating a phone number
+   * @param {*} date the date to be validate
+   * @param {*} shouldValidate boolean to check if method should validate value
+   * @return {string} error an error message that can be null
+   */
+  static validateCategoryId(id) {
+    let error;
+    try {
+      id = parseInt(id);
+      if (isNaN(id)) return 'Choose the proper sub category';
+    } catch (err) {
+      console.log(err);
+      return 'Choose the proper category';
+    }
+    return error;
+  }
+
+  /**
+   * Function for validating a phone number
+   * @param {*} date the date to be validate
+   * @param {*} shouldValidate boolean to check if method should validate value
+   * @return {string} error an error message that can be null
+   */
+  static validateDeadline(date, shouldValidate = true) {
+    let error;
+    if (shouldValidate) {
+      if (!(date instanceof Date)) return 'Date must be set';
+      if (date < new Date()) return 'Date can not be before today';
+    }
+    return error;
   }
 }
 export default Validations;

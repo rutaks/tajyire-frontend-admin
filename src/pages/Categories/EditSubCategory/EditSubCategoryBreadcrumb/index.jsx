@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Breadcrumb, Divider } from 'antd';
-import { Link } from 'react-router-dom';
 import { InsertRowAboveOutlined, HomeOutlined, EditOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
@@ -14,19 +13,15 @@ export default function EditSubCategoryBreadcrumb({ subCategoryName = '' }) {
   return (
     <Fragment>
       <Breadcrumb>
-        <Breadcrumb.Item href="">
-          <Link to="/">
-            <HomeOutlined />
-          </Link>
+        <Breadcrumb.Item href="/">
+          <HomeOutlined />
         </Breadcrumb.Item>
 
         <Breadcrumb.Item href="">
-          <Link to="/">
-            <InsertRowAboveOutlined />
-            <span>SubCategories</span>
-          </Link>
+          <InsertRowAboveOutlined />
+          <span>SubCategories</span>
         </Breadcrumb.Item>
-        <Breadcrumb.Item href="">
+        <Breadcrumb.Item href="#">
           <EditOutlined />
           <span>Edit</span>
         </Breadcrumb.Item>

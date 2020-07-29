@@ -6,6 +6,7 @@ import editCategoryReducer from './editCategoryReducer';
 import getCategoryReducer from './getCategoryReducer';
 import deleteCategoryReducer from './deleteCategoryReducer';
 import getSubCategoriesReducer from './getSubCategoriesReducer';
+import getAllSubCategoriesReducer from './getAllSubCategoriesReducer';
 import createSubCategoryReducer from './createSubCategoryReducer';
 import getSubCategoryReducer from './getSubCategoryReducer';
 import editSubCategoryReducer from './editSubCategoryReducer';
@@ -25,6 +26,7 @@ export default (state = initialState.category, action) => {
   const editCategory = editCategoryReducer(state, action);
   const deleteCategory = deleteCategoryReducer(state, action);
   const getSubCategories = getSubCategoriesReducer(state, action);
+  const getAllSubCategories = getAllSubCategoriesReducer(state, action);
   const createSubCategory = createSubCategoryReducer(state, action);
   const getSubCategory = getSubCategoryReducer(state, action);
   const editSubCategory = editSubCategoryReducer(state, action);
@@ -37,6 +39,7 @@ export default (state = initialState.category, action) => {
     editCategory ||
     deleteCategory ||
     getSubCategories ||
+    getAllSubCategories ||
     createSubCategory ||
     getSubCategory ||
     editSubCategory ||

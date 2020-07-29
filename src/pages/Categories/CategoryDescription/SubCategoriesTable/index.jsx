@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Table, Space, Divider, Row, Button, Col } from 'antd';
 import Column from 'antd/lib/table/Column';
 import {
@@ -27,7 +27,7 @@ export default function SubCategoriesTable({
     setCurrentPage(page - 1);
   };
   return (
-    <Fragment style={style}>
+    <div style={style}>
       <Divider orientation="left" style={{ fontSize: '15px' }}>
         {`Sub Categories of ${categoryName}`}
       </Divider>
@@ -51,37 +51,38 @@ export default function SubCategoriesTable({
       <br />
       <CreateSubCategory />
       <FilterSubCategoriesTable style={styles.table} />
-      <Table
-        pagination={{
-          onChange: onChange,
-          current: currentPage,
-          total: totalElements
-        }}
-        loading={isLoading}
-        dataSource={categoryArr}
-        style={styles.table}
-      >
-        <Column title="ID" width="20%" dataIndex="index" key="index" />
-        <Column title="Name" width="60%" dataIndex="name" key="name" />
-        <Column
-          title="Action"
-          key="action"
-          render={(subCategory) => (
-            <Space size="middle">
-              <Link to={`/sub-categories/${subCategory.uuid}/edit`}>
-                <EditOutlined />
-              </Link>
-              <Link to={`/sub-categories/${subCategory.uuid}`}>
-                <UnorderedListOutlined />
-              </Link>
-              <Link onClick={() => deleteSubCategory(subCategory.uuid)}>
-                <DeleteOutlined />
-              </Link>
-            </Space>
-          )}
-        />
-      </Table>
-    </Fragment>
+      <div style={styles.table}>
+        <Table
+          rowKey="index"
+          pagination={{
+            onChange: onChange,
+            current: currentPage,
+            total: totalElements
+          }}
+          loading={isLoading}
+          dataSource={categoryArr}
+        >
+          <Column title="ID" width="20%" dataIndex="index" />
+          <Column title="Name" width="60%" dataIndex="name" />
+          <Column
+            title="Action"
+            render={(subCategory) => (
+              <Space size="middle">
+                <Link to={`/sub-categories/${subCategory.uuid}/edit`}>
+                  <EditOutlined />
+                </Link>
+                <Link to={`/sub-categories/${subCategory.uuid}`}>
+                  <UnorderedListOutlined />
+                </Link>
+                <Link to="" onClick={() => deleteSubCategory(subCategory.uuid)}>
+                  <DeleteOutlined />
+                </Link>
+              </Space>
+            )}
+          />
+        </Table>
+      </div>
+    </div>
   );
 }
 
@@ -101,9 +102,9 @@ SubCategoriesTable.propTypes = {
 
 const styles = {
   table: {
-    'padding-top': '50px'
+    paddingTop: '50px'
   },
   button: {
-    'margin-left': '5px'
+    marginLeft: '5px'
   }
 };
