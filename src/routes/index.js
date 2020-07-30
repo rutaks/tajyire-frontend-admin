@@ -6,6 +6,7 @@ import ResetPassword from '../pages/ResetPassword';
 import ForgotPasswordFinalStep from '../pages/ForgotPasswordFinalStep';
 import PrivateRoute from './PrivateRoute';
 import Logout from '../pages/Logout';
+import AdminAccountFinalStep from '../pages/AdminAccountFinalStep';
 
 export default function Routes() {
   return (
@@ -15,6 +16,7 @@ export default function Routes() {
       <Route exact path="/forgot-password" component={ForgotPassword} />
       <Route exact path="/forgot-password-success" component={ForgotPasswordFinalStep} />
       <Route exact path="/reset-password/:token" component={ResetPassword} />
+      <Route exact path="/activate-account/:token" component={AdminAccountFinalStep} />
       <Route path="/" component={PrivateRoute} />
     </Switch>
   );

@@ -2,25 +2,31 @@ import { actionTypes } from '../../action-types';
 
 export default (state, { type, payload }) => {
   switch (type) {
-    case actionTypes.user.RESET_PASSWORD_START:
+    case actionTypes.user.ACTIVATE_ACCOUNT_START:
       return {
         ...state,
-        resetPassword: { ...state.resetPassword, message: null, loading: true, error: null, success: false }
+        activateAccount: {
+          ...state.activateAccount,
+          message: null,
+          loading: true,
+          error: null,
+          success: false
+        }
       };
-    case actionTypes.user.RESET_PASSWORD_END:
+    case actionTypes.user.ACTIVATE_ACCOUNT_END:
       return {
         ...state,
-        resetPassword: { ...state.resetPassword, loading: false }
+        activateAccount: { ...state.activateAccount, loading: false }
       };
-    case actionTypes.user.RESET_PASSWORD_SUCCESS:
+    case actionTypes.user.ACTIVATE_ACCOUNT_SUCCESS:
       return {
         ...state,
-        resetPassword: { loading: false, message: payload.message, error: null, success: true }
+        activateAccount: { loading: false, message: payload.message, error: null, success: true }
       };
-    case actionTypes.user.RESET_PASSWORD_FAILURE:
+    case actionTypes.user.ACTIVATE_ACCOUNT_FAILURE:
       return {
         ...state,
-        resetPassword: { loading: false, message: null, error: payload, success: false }
+        activateAccount: { loading: false, message: null, error: payload, success: false }
       };
     default:
       return null;

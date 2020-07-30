@@ -18,6 +18,7 @@ import EditSubCategory from '../pages/Categories/EditSubCategory';
 import SubCategoryDescription from '../pages/Categories/SubCategoryDescription';
 import CreateProduct from '../pages/Products/CreateProduct';
 import EditProduct from '../pages/Products/EditProduct';
+import Admins from '../pages/Admins';
 
 const { Header, Sider, Content } = Layout;
 
@@ -70,7 +71,8 @@ export default function PrivateRoute() {
             Products
           </Menu.Item>
           <Menu.Item key="3" icon={<UserOutlined />}>
-            Users
+            <Link to="/admins" />
+            Admins
           </Menu.Item>
         </Menu>
       </Sider>
@@ -95,6 +97,7 @@ export default function PrivateRoute() {
         >
           <Switch>
             <Route exact path="/" component={Categories} />
+            <Route exact path="/admins" component={Admins} />
             <Route exact path="/categories/:categoryUuId" component={CategoryDescription} />
             <Route exact path="/categories/:categoryUuId/edit" component={EditCategory} />
             <Route exact path="/sub-categories/:subCategoryUuId" component={SubCategoryDescription} />

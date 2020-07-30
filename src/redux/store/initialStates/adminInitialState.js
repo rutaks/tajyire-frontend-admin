@@ -1,28 +1,33 @@
-import checkUser from '../../../helpers/checkUser';
-
-export const userInitialState = {
-  isAuth: checkUser(),
-  user: localStorage.TAJYIRE_USER || '',
-  token: localStorage.TAJYIRE_TOKEN || '',
-  login: {
+export const adminInitialState = {
+  adminPayload: {
+    content: []
+  },
+  getAdmins: {
     success: false,
     loading: false,
     message: null,
     error: null
   },
-  forgotPassword: {
+  getAdmin: {
+    payload: null,
     success: false,
     loading: false,
     message: null,
     error: null
   },
-  resetPassword: {
+  createAdmin: {
     success: false,
     loading: false,
     message: null,
     error: null
   },
-  activateAccount: {
+  editAdmin: {
+    success: false,
+    loading: false,
+    message: null,
+    error: null
+  },
+  deleteAdmin: {
     success: false,
     loading: false,
     message: null,

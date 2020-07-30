@@ -1,0 +1,20 @@
+.form {
+  margin-top: 3%;
+}
+.form-forgot {
+  float: right;
+}
+.ant-col-rtl .form-forgot {
+  float: left;
+}
+.form-button {
+  width: 100%;
+}
+
+.form-element {
+  margin-bottom: 12px;
+}
+
+.title {
+  text-align: center;
+}
