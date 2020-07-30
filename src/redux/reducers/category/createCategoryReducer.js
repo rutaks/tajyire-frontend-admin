@@ -17,7 +17,7 @@ export default (state, { type, payload }) => {
         ...state,
         categoryPayload: {
           ...state.categoryPayload,
-          content: [payload.payload, ...state.categoryPayload.content]
+          content: [...state.categoryPayload.content, payload.payload]
         },
         createCategory: { ...state.createCategory, success: true }
       };
