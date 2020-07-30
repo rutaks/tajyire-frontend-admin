@@ -71,7 +71,8 @@ export default function PrivateRoute() {
             Products
           </Menu.Item>
           <Menu.Item key="3" icon={<UserOutlined />}>
-            Users
+            <Link to="/admins" />
+            Admins
           </Menu.Item>
         </Menu>
       </Sider>

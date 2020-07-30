@@ -21,5 +21,11 @@ export const userInitialState = {
     loading: false,
     message: null,
     error: null
+  },
+  activateAccount: {
+    success: false,
+    loading: false,
+    message: null,
+    error: null
   }
 };

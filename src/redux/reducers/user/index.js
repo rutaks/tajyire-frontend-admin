@@ -2,6 +2,7 @@ import { initialState } from '../../store/initialStates/';
 import loginReducer from './loginReducer';
 import forgotPasswordReducer from './forgotPasswordReducer';
 import resetPasswordReducer from './resetPasswordReducer';
+import activateAccountReducer from './activateAccountReducer';
 import clearUserStoreReducer from './clearUserStoreReducer';
 
 /**
@@ -15,5 +16,6 @@ export default (state = initialState.user, action) => {
   const login = loginReducer(state, action);
   const forgotPassword = forgotPasswordReducer(state, action);
   const resetPassword = resetPasswordReducer(state, action);
-  return clearUserStore || login || forgotPassword || resetPassword || state;
+  const activateAccount = activateAccountReducer(state, action);
+  return clearUserStore || login || forgotPassword || resetPassword || activateAccount || state;
 };
